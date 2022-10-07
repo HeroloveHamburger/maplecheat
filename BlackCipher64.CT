@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="34">
+  <Forms>
+    <UDF1 Class="TCEForm" Encoding="Ascii85">b7Ej%2nldAU:MM2b.}cxWeIh0Gi32eO*FtmWn{Y6%{mcIVgA6t9Fkwal+AgInNpI$=7,zGoLEqjnV-i7R=ffx00</UDF1>
+  </Forms>
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"loop ReadFile"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : BlackCipher64.aes
+  Version: 
+  Date   : 2022-10-04
+  Author : �S���W
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,KERNELBASE.dll,5C 24 10 4C 89 4C 24 20 56) // should be unique
+alloc(newmem,$1000,INJECT)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+
+  mov [rsp+20],r9
+  jmp ReadFile
+
+INJECT+03:
+  jmp newmem
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT+03:
+  db 4C 89 4C 24 20
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: KERNELBASE.ReadFile+5
+
+KERNELBASE.LoadLibraryExW+1B7: CC              - int 3 
+KERNELBASE.LoadLibraryExW+1B8: CC              - int 3 
+KERNELBASE.LoadLibraryExW+1B9: CC              - int 3 
+KERNELBASE.LoadLibraryExW+1BA: CC              - int 3 
+KERNELBASE.LoadLibraryExW+1BB: CC              - int 3 
+KERNELBASE.LoadLibraryExW+1BC: CC              - int 3 
+KERNELBASE.LoadLibraryExW+1BD: CC              - int 3 
+KERNELBASE.LoadLibraryExW+1BE: CC              - int 3 
+KERNELBASE.LoadLibraryExW+1BF: CC              - int 3 
+KERNELBASE.ReadFile: 48 89 5C 24 10  - mov [rsp+10],rbx
+// ---------- INJECTING HERE ----------
+KERNELBASE.ReadFile+5: 4C 89 4C 24 20  - mov [rsp+20],r9
+// ---------- DONE INJECTING  ----------
+KERNELBASE.ReadFile+A: 56              - push rsi
+KERNELBASE.ReadFile+B: 57              - push rdi
+KERNELBASE.ReadFile+C: 41 56           - push r14
+KERNELBASE.ReadFile+E: 48 83 EC 60     - sub rsp,60
+KERNELBASE.ReadFile+12: 49 8B D9        - mov rbx,r9
+KERNELBASE.ReadFile+15: 4C 8B D2        - mov r10,rdx
+KERNELBASE.ReadFile+18: 48 8B F1        - mov rsi,rcx
+KERNELBASE.ReadFile+1B: 0F 57 C0        - xorps xmm0,xmm0
+KERNELBASE.ReadFile+1E: 0F 11 44 24 50  - movups [rsp+50],xmm0
+KERNELBASE.ReadFile+23: 33 FF           - xor edi,edi
+}
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Comments>Info about this table:
+</Comments>
+</CheatTable>
